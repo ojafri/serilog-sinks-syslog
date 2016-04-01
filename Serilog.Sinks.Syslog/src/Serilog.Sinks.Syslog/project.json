@@ -1,9 +1,9 @@
 {
-  "version": "1.0.1-*",
-  "description": "Serilog sink for Syslog based on SyslogNet.Client",
+  "version": "0.1.0-*",
+  "description": "dnx based Serilog sink for Syslog based on SyslogNet.Client ",
   "authors": [ "Omair Jafri" ],
-  "tags": [ "" ],
-  "projectUrl": "",
+  "tags": [ "serilog", "sinks", "syslog", "dnx", "net46" ],
+  "projectUrl": "https://github.com/ojafri/serilog-sinks-syslog",
   "licenseUrl": "",
   "frameworks": {
     "net46": { }
