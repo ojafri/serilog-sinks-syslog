@@ -1,16 +1,18 @@
 {
-  "version": "0.1.0-*",
-  "description": "dnx based Serilog sink for Syslog based on SyslogNet.Client ",
+  "version": "0.2.0-*",
+  "description": "dnx based Serilog sink for Syslog based on SyslogNet.Client-dnx",
+  "summary": "dnx based Serilog sink for Syslog based on SyslogNet.Client-dnx",
+  "title": "Serilog.Sinks.Syslog",
   "authors": [ "Omair Jafri" ],
   "tags": [ "serilog", "sinks", "syslog", "dnx", "net46" ],
   "projectUrl": "https://github.com/ojafri/serilog-sinks-syslog",
-  "licenseUrl": "",
+  "licenseUrl": "https://github.com/ojafri/serilog-sinks-syslog/blob/master/LICENSE",
   "frameworks": {
     "net46": { }
   },
   "dependencies": {
     "Serilog": "2.0.0-beta-523",
     "Serilog.Sinks.PeriodicBatching": "2.0.0-beta-700",
-    "SyslogNet.Client": "0.3.1"
+    "SyslogNet.Client-dnx": "0.1.0"
   }
 }

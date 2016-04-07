@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Net;
 using System.Net.Sockets;
 using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Serilog.Sinks.Syslog
 {
@@ -20,14 +21,27 @@ namespace Serilog.Sinks.Syslog
         ProtocolType SyslogProtocol { get; set; }
         bool UseSSL { get; set; }
         string AppName { get; set; }
+        X509CertificateCollection CertificateCollection { get; set; }
 
-        public SyslogSink(int batchSizeLimit, TimeSpan period, string host, int port, ProtocolType protocol, bool useSSL, string appName) : base(batchSizeLimit, period)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="batchSizeLimit">batch size</param>
+        /// <param name="period">period</param>
+        /// <param name="host">syslog server host</param>
+        /// <param name="port">port of syslog server</param>
+        /// <param name="protocol">protocol to use for syslog</param>
+        /// <param name="useSSL">applicable onyl when using TCP</param>
+        /// <param name="appName">appName field part of syslog message</param>
+        /// <param name="certificateCollection">X509Certificates, only applicable when using TCP and SSL</param>
+        public SyslogSink(int batchSizeLimit, TimeSpan period, string host, int port, ProtocolType protocol, bool useSSL, X509CertificateCollection certificateCollection=null, string appName=null) : base(batchSizeLimit, period)
         {
             this.SyslogHost = host;
             this.SyslogPort = port;
             this.SyslogProtocol = protocol;
             this.UseSSL = useSSL;
             this.AppName = appName;
+            this.CertificateCollection = certificateCollection;
         }
 
         protected override void EmitBatch(IEnumerable<LogEvent> events)
@@ -44,8 +58,8 @@ namespace Serilog.Sinks.Syslog
         private SyslogNet.Client.Transport.ISyslogMessageSender GetSender()
         {
             if (this.SyslogProtocol == ProtocolType.Tcp && UseSSL)
-                return new SyslogNet.Client.Transport.SyslogEncryptedTcpSender(this.SyslogHost, this.SyslogPort);
-            else if(this.SyslogProtocol == ProtocolType.Tcp)
+                return new SyslogNet.Client.Transport.SyslogEncryptedTcpSender(this.SyslogHost, this.SyslogPort, this.CertificateCollection);
+            else if (this.SyslogProtocol == ProtocolType.Tcp)
                 return new SyslogNet.Client.Transport.SyslogTcpSender(this.SyslogHost, this.SyslogPort);
 
             if(this.SyslogProtocol == ProtocolType.Udp)
